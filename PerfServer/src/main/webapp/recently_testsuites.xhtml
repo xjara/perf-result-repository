@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:panel header="Choose Time Range" styleClass="casual_panel">
+			<h:form>
+				<h:panelGrid columns="3" cellpadding="5">
+					<h:outputText value="Start Time:" />
+					<p:calendar 
+						id="calendar_start" 
+						value="#{recentlyTestedBean.start}" 
+						pattern="yyyy-MM-dd HH:mm" 
+						required="true" 
+						navigator="true"
+						showButtonPanel="true"
+						requiredMessage="Start Time must be not empty."/>
+						
+					<p:message for="calendar_start" />
+					<h:outputText value="End Time:" />
+					<p:calendar 
+						value="#{recentlyTestedBean.end}" 
+						pattern="yyyy-MM-dd HH:mm"
+						navigator="true"
+						showButtonPanel="true" />
+						
+				</h:panelGrid>
+				<p:commandButton 
+					value="Show" 
+					action="#{recentlyTestedBean.show()}" 
+					ajax="false" />
+					
+			</h:form>
+		</p:panel>
+		
+		<h:form>
+			<p:dataTable 
+				value="#{recentlyTestedBean.testSuiteRuns}" 
+				var="testSuiteRun"
+				rowClasses="odd, even"
+				emptyMessage="There were not tested any TestSuites in selected Time Range."
+				paginator="true" 
+				rows="#{configBean.rows}"
+				paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+		        rowsPerPageTemplate="#{configBean.rowsPerPage}">
+				
+				<f:facet name="header">
+					<h:outputText value="Finished TestSuites in chosen Time Range" />
+				</f:facet>
+				
+				<p:column
+					headerText="Name"
+					sortBy="#{testSuiteRun.testSuite.name}" 
+					filterBy="#{testSuiteRun.testSuite.name}"
+					filterMatchMode="contains">
+					<h:link value="#{testSuiteRun.testSuite.name}" outcome="methods">
+						<f:param name="testsuiterunid" value="#{testSuiteRun.id}" />
+					</h:link>
+				</p:column>
+				<p:column
+					headerText="Start Time"
+					sortBy="#{testSuiteRun.startTime}">
+					<h:outputText value="#{testSuiteRun.startTime}" />
+				</p:column>
+				<p:column
+					headerText="End Time"
+					sortBy="#{testSuiteRun.endTime}">
+					<h:outputText value="#{testSuiteRun.endTime}" />
+				</p:column>
+				<p:column
+					headerText="Project"
+					sortBy="#{testSuiteRun.testSuite.build.project.name}" 
+					filterBy="#{testSuiteRun.testSuite.build.project.name}"
+					filterMatchMode="contains">
+					<h:link value="#{testSuiteRun.testSuite.build.project.name}" outcome="testsuites">
+						<f:param name="projectid" value="#{testSuiteRun.testSuite.build.project.id}" />
+					</h:link>
+				</p:column>
+				<p:column
+					headerText="Build"
+					sortBy="#{testSuiteRun.testSuite.build.name}" 
+					filterBy="#{testSuiteRun.testSuite.build.name}"
+					filterMatchMode="contains">
+					<h:outputText value="#{testSuiteRun.testSuite.build.name}" />
+				</p:column>
+				<p:column
+					headerText="Platform"
+					sortBy="#{testSuiteRun.hw.name}" 
+					filterBy="#{testSuiteRun.hw.name}"
+					filterMatchMode="contains">
+					<h:outputText value="#{testSuiteRun.hw.name}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>	
+	</ui:define>
+</ui:composition>

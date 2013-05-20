@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:fieldset legend="Maintain global Thresholds">
+			<h:panelGrid columns="2">
+				<h:form id="form_add">
+					<p:panel header="Add global Threshold" styleClass="casual_panel">
+						<h:panelGrid columns="3">
+							<h:outputText value="Attribute:" />
+							<p:selectOneMenu id="attribute" style="width: 250px" value="#{thresholdForm.attribute}">
+								<f:selectItem itemLabel="Select" itemValue=""/>
+								<f:selectItems 
+									value="#{attributes}"
+									var="attr"
+									itemValue="#{attr.name}"
+									itemLabel="#{attr.name} (#{attr.unit.name})" />
+							</p:selectOneMenu>
+							<p:message id="msg_attribute" for="attribute" />
+							
+							<h:outputText value="Value:" />
+							<p:inputText id="value" value="#{thresholdForm.value}" >
+								<f:validator validatorId="perf.result.rep.controller.validators.DoubleValueValidator" />
+							</p:inputText>
+							<p:message id="msg_value" for="value" />
+						</h:panelGrid>
+						
+						<p:commandButton 
+							value="Save" 
+							actionListener="#{thresholdBean.saveGlobalThreshold()}" 
+							update=":form_list,:form_add" />
+						<p:message id="save" for="save" />
+					</p:panel>
+				</h:form>
+			 
+				<h:form id="form_list">	
+					<p:dataTable
+						id="table" 
+						value="#{thresholdBean.globalThresholds}" 
+						var="th"
+						emptyMessage="There are not any global Thresholds."
+						styleClass="casual_panel">
+						
+						<f:facet name="header">
+							<h:outputText value="Global Thresholds" />
+						</f:facet>
+						
+						<p:column headerText="Attribute">
+							<h:outputText value="#{th.attr.name}" />
+						</p:column>
+						<p:column headerText="Value">
+							<h:outputText value="#{th.value}" />
+						</p:column>
+						<p:column headerText="Unit">
+							<h:outputText value="#{th.attr.unit.name}" />
+						</p:column>
+						<p:column headerText="Action">
+							<p:commandLink
+								title="Delete" 
+								styleClass="ui-icon ui-icon-trash"
+								actionListener="#{thresholdBean.deleteGlobalThreshold(th)}"
+								update=":form_add,:form_list" /> 
+						</p:column>
+					</p:dataTable>
+					<p:message id="delete" for="delete" />
+				</h:form>
+			</h:panelGrid>
+		</p:fieldset>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:panel>
+			<h:link value="Project:" outcome="projects" />
+			<h:outputText value=" #{methodBean.testSuiteRun.testSuite.build.project.name}" />
+			<h:outputText value=" > " />
+			<h:outputText value="Build: #{methodBean.testSuiteRun.testSuite.build.name}" />
+			<h:outputText value=" > " />
+			<h:link value="TestSuite:" outcome="testsuites">
+				<f:param name="projectid" value="#{methodBean.testSuiteRun.testSuite.build.project.id}" />	
+			</h:link>
+			<h:outputText value=" #{methodBean.testSuiteRun.testSuite.name} tested " />
+			<h:outputText value="#{methodBean.testSuiteRun.startTime}" />
+			<h:outputText value=" on  #{methodBean.testSuiteRun.hw.name}" />
+		</p:panel>
+	
+		<h:form>
+			<p:dataTable 
+				value="#{methodBean.testRuns}" 
+				var="testRun"
+				rowClasses="odd, even"
+				emptyMessage="There are not any Methods."
+				paginator="true" 
+				rows="#{configBean.rows}"
+				paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+	            rowsPerPageTemplate="#{configBean.rowsPerPage}">
+				<f:facet name="header">
+					<h:outputText value="Methods" />
+				</f:facet>
+				
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column 
+							rowspan="2" 
+							headerText="Name" 
+							styleClass="column_name" 
+							sortBy="#{testRun.method.name}"
+							filterBy="#{testRun.method.name}"
+							filterMatchMode="contains" />
+						<p:column 
+							rowspan="2" 
+							headerText="Status"
+							styleClass="column_status" 
+							sortBy="#{testRun.status}"
+							filterBy="#{testRun.status}"
+							filterMatchMode="contains" />
+						<p:column 
+							rowspan="2" 
+							headerText="Parameters" 
+							sortBy="#{testRun.parameters}"
+							filterBy="#{testRun.parameters}"
+							filterMatchMode="contains" />
+					</p:row>
+				</p:columnGroup>	
+				
+				<p:column>
+					<h:link value="#{testRun.method.name}" outcome="results" rendered="#{testRun.status != 2}">
+						<f:param name="testrunid" value="#{testRun.id}" />
+					</h:link>
+					<h:outputText value="#{testRun.method.name}" rendered="#{testRun.status == 2}" />
+				</p:column>
+				
+				<p:column>
+					<h:graphicImage id="fail" value="/resources/icons/cross.png"
+						rendered="#{testRun.status == 0}" />
+					
+					<h:graphicImage value="/resources/icons/tick.png" alt="success"
+						rendered="#{testRun.status == 1}" />
+									
+					<h:graphicImage value="/resources/icons/excluded.png" alt="excluded"
+						rendered="#{testRun.status == 2}" />
+					
+					<h:graphicImage value="/resources/icons/progress.png" alt="progress"
+						rendered="#{testRun.status == 3}" />
+						
+					<p:tooltip 
+						styleClass="exception" 
+						for="fail" 
+						value="#{testRun.error == null ? '' : testRun.error}" 
+						showEffect="fade" 
+						hideEffect="fade" />
+						 
+				</p:column>
+				
+				<p:column>
+					<h:outputText value="#{testRun.parameters}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

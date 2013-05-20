@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p:dataTable 
+				value="#{actuallyTestedBean.testSuiteRuns}" 
+				var="testSuiteRun"
+				rowClasses="odd, even"
+				emptyMessage="There are not tested any TestSuites now."
+				paginator="true" 
+				rows="#{configBean.rows}"
+				paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+		        rowsPerPageTemplate="#{configBean.rowsPerPage}"> 
+		         
+				<f:facet name="header">
+					<h:outputText value="Actually tested TestSuites" />
+				</f:facet>
+				<p:column
+					headerText="Name"
+					sortBy="#{testSuiteRun.testSuite.name}" 
+					filterBy="#{testSuiteRun.testSuite.name}"
+					filterMatchMode="contains">
+					<h:link value="#{testSuiteRun.testSuite.name}" outcome="methods">
+						<f:param name="testsuiterunid" value="#{testSuiteRun.id}" />
+					</h:link>
+				</p:column>
+				<p:column
+					headerText="Start Time"
+					sortBy="#{testSuiteRun.startTime}">
+					<h:outputText value="#{testSuiteRun.startTime}" />
+				</p:column>
+				<p:column
+					headerText="Project"
+					sortBy="#{testSuiteRun.testSuite.build.project.name}" 
+					filterBy="#{testSuiteRun.testSuite.build.project.name}"
+					filterMatchMode="contains">
+					<h:link value="#{testSuiteRun.testSuite.build.project.name}" outcome="testsuites">
+						<f:param name="projectid" value="#{testSuiteRun.testSuite.build.project.id}" />
+					</h:link>
+				</p:column>
+				<p:column
+					headerText="Build"
+					sortBy="#{testSuiteRun.testSuite.build.name}" 
+					filterBy="#{testSuiteRun.testSuite.build.name}"
+					filterMatchMode="contains">
+					<h:outputText value="#{testSuiteRun.testSuite.build.name}" />
+				</p:column>
+				<p:column
+					headerText="Platform"
+					sortBy="#{testSuiteRun.hw.name}" 
+					filterBy="#{testSuiteRun.hw.name}"
+					filterMatchMode="contains">
+					<h:outputText value="#{testSuiteRun.hw.name}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

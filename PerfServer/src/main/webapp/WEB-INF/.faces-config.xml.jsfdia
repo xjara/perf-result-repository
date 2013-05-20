@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#projects.xhtml" PATH="/projects.xhtml"
+  SHAPE="32,161,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#projects.xhtml:0" NAME="item"
+   PATH="/projects.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="testsuites::#testsuites.xhtml" NAME="output"
+    PATH="/testsuites.xhtml" TARGET="rules:#testsuites.xhtml"
+    TITLE="testsuites" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="view1::#view1.xhtml" NAME="output1"
+    PATH="/view1.xhtml" TARGET="rules:#view1.xhtml" TITLE="view1" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="view2::#view2.xhtml" NAME="output2"
+    PATH="/view2.xhtml" TARGET="rules:#view2.xhtml" TITLE="view2" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="view3::#view3.xhtml" NAME="output3"
+    PATH="/view3.xhtml" TARGET="rules:#view3.xhtml" TITLE="view3" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#testsuites.xhtml" PATH="/testsuites.xhtml"
+  SHAPE="240,177,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#testsuites.xhtml:0" NAME="item"
+   PATH="/testsuites.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="methods::#methods.xhtml" NAME="output"
+    PATH="/methods.xhtml" TARGET="rules:#methods.xhtml" TITLE="methods" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#methods.xhtml" PATH="/methods.xhtml"
+  SHAPE="448,161,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#methods.xhtml:0" NAME="item"
+   PATH="/methods.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="results::#results.xhtml" NAME="output"
+    PATH="/results.xhtml" TARGET="rules:#results.xhtml" TITLE="results" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#results.xhtml" PATH="/results.xhtml"
+  SHAPE="656,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#local_thresholds.xhtml"
+  PATH="/local_thresholds.xhtml" SHAPE="256,289,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="32,273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#index.xhtml:0" NAME="item"
+   PATH="/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="methods::#methods.xhtml" NAME="output"
+    PATH="/methods.xhtml" TARGET="rules:#methods.xhtml" TITLE="methods" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="testsuites::#testsuites.xhtml"
+    NAME="output1" PATH="/testsuites.xhtml"
+    TARGET="rules:#testsuites.xhtml" TITLE="testsuites" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="uploadfile::#uploadfile.xhtml"
+    NAME="output2" PATH="/uploadfile.xhtml"
+    TARGET="rules:#uploadfile.xhtml" TITLE="uploadfile" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#view1.xhtml" PATH="/view1.xhtml"
+  SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#view2.xhtml" PATH="/view2.xhtml"
+  SHAPE="272,465,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#uploadfile.xhtml" PATH="/uploadfile.xhtml"
+  SHAPE="288,529,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#view3.xhtml" PATH="/view3.xhtml"
+  SHAPE="288,529,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

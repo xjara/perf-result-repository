@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:panel>
+			<h:link value="Project:" outcome="projects" />
+			<h:outputText value=" #{view2Bean.project.name}" />
+		</p:panel>
+	
+		<h:form id="form">
+			<p:fieldset legend="Compare 2 selected TestSuite Runs">
+				<h:panelGrid columns="3">
+					<h:outputText value="TestSuite:" />
+					<p:selectOneMenu id="testSuiteNames" value="#{view2Form.testSuite}" style="width: 250px">
+						<f:selectItem itemLabel="Select" itemValue=""/>
+						<f:selectItems
+							value="#{view2Bean.uniqueTestSuites}"
+							var="testsuite"
+							itemValue="#{testsuite}"
+							itemLabel="#{testsuite}" />
+							
+						<p:ajax listener="#{view2Bean.handleTestSuiteChange}" update="@this,msg_testSuiteNames,base_build,compared_build" />	
+					</p:selectOneMenu>
+					<p:message id="msg_testSuiteNames" for="testSuiteNames" />
+					
+					<h:outputText value="Used Attributes:" />
+		   			<p:selectManyMenu id="attributes" value="#{view2Form.attributeIDs}" style="width: 250px">
+						<f:selectItems 
+							value="#{view2Bean.attributes}"
+							var="attr"
+							itemLabel="#{attr.name}"
+							itemValue="#{attr.id}" /> 
+							
+							<p:ajax update="@this,msg_attributes" />
+					</p:selectManyMenu>
+					<p:message id="msg_attributes" for="attributes" />
+					 
+					<h:outputText value="Function:" />
+					<p:selectOneMenu id="function" value="#{view2Form.function}">
+						<f:selectItems 
+							value="#{view2Bean.functions}"
+							var="fce"
+							itemValue="#{fce}"
+							itemLabel="#{fce}" />
+							
+							<p:ajax update="@this,msg_function" />	
+					</p:selectOneMenu>
+					<p:message id="msg_function" for="function" />
+				</h:panelGrid>	
+				
+				<p:fieldset legend="Base TestSuite Run">
+					<h:panelGrid columns="6">
+						<h:outputText value="Build:" />
+						<p:selectOneMenu id="base_build" value="#{view2Form.baseBuild}" style="width: 250px">
+							<f:selectItem itemLabel="#{view2Bean.uniqueBuilds.size() > 0 ? 'Select' : 'No Build'}" itemValue=""/>
+							<f:selectItems 
+								value="#{view2Bean.uniqueBuilds}"
+								var="build"
+								itemValue="#{build}"
+								itemLabel="#{build}" />
+								
+								<p:ajax listener="#{view2Bean.handleBaseBuildChange}" update="@this,msg_base_build,testSuites1menu" />
+						</p:selectOneMenu>
+						<p:message id="msg_base_build" for="base_build" />
+						
+						<h:outputText value="TestSuite Run:" />
+						<p:selectOneMenu id="testSuites1menu" value="#{view2Form.baseTestSuite}" style="width: 350px">
+							<f:selectItem itemLabel="#{view2Bean.baseTestSuiteRuns.size() > 0 ? 'Select' : 'No TestSuite Run'}" itemValue=""/>
+							<f:selectItems 
+								value="#{view2Bean.baseTestSuiteRuns}"
+								var="testsuite"
+								itemValue="#{testsuite.id}"
+								itemLabel="#{testsuite.startTime}-#{testsuite.hw.name} #{testsuite.endTime == null? ' (NOT FINISHED)' : ''}" />
+								
+								<p:ajax update="@this,msg_testSuites1menu" />
+						</p:selectOneMenu>
+						<p:message id="msg_testSuites1menu" for="testSuites1menu" />
+					</h:panelGrid>
+				</p:fieldset>
+					
+				<p:fieldset legend="Compared TestSuite Run">
+					<h:panelGrid columns="6">
+						<h:outputText value="Build:" />
+						<p:selectOneMenu id="compared_build" value="#{view2Form.comparedBuild}" style="width: 250px">
+							<f:selectItem itemLabel="#{view2Bean.uniqueBuilds.size() > 0 ? 'Select' : 'No Build'}" itemValue=""/>
+							<f:selectItems 
+								value="#{view2Bean.uniqueBuilds}"
+								var="build"
+								itemValue="#{build}"
+								itemLabel="#{build}" />
+								
+								<p:ajax listener="#{view2Bean.handleComparedBuildChange}" update="@this,msg_compared_build,testSuites2menu" />
+						</p:selectOneMenu>
+						<p:message id="msg_compared_build" for="compared_build" />
+						
+						<h:outputText value="TestSuite Run:" />
+						<p:selectOneMenu id="testSuites2menu" value="#{view2Form.comparedTestSuite}" style="width: 350px">
+							<f:selectItem itemLabel="#{view2Bean.comparedTestSuiteRuns.size() > 0 ? 'Select' : 'No TestSuite Run'}" itemValue=""/>
+							<f:selectItems 
+								value="#{view2Bean.comparedTestSuiteRuns}"
+								var="testsuite"
+								itemValue="#{testsuite.id}"
+								itemLabel="#{testsuite.startTime}-#{testsuite.hw.name} #{testsuite.endTime == null? ' (NOT FINISHED)' : ''}" />
+								
+								<p:ajax update="@this,msg_testSuites2menu" />	
+						</p:selectOneMenu>
+						<p:message id="msg_testSuites2menu" for="testSuites2menu" />
+					</h:panelGrid>
+				</p:fieldset>
+				
+				<h:panelGrid>	
+				<p:commandButton
+					id="button" 
+					value="Compare"
+					actionListener="#{view2Bean.refresh()}" 
+					ajax="false" />
+				</h:panelGrid>
+							
+			</p:fieldset>
+			
+			<ui:repeat value="#{view2Bean.testRuns}" var="testRun">
+        		<p:fieldset legend="#{testRun.method.name}">
+        			#{view2Bean.determineTestSuite2TestRun(testRun.method.id)}
+	       			<p:dataTable
+	       			 	value="#{view2Bean.chosenAttributes}"
+	       			 	var="att"
+	       				emptyMessage="There are no data."
+	       				style="width: 550px"
+						border="1">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Attribute" />
+							</f:facet>
+							<h:outputText value="#{att.name} (#{att.unit.name})" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Base TestSuite" />
+							</f:facet>
+							#{computeBean.init(view2Bean.projectId)}
+							#{computeBean.setBaseTestSuiteValue(view2Form.baseTestSuite, testRun.method.id, att.id, view2Form.function)}
+							
+							<h:outputLink value="results.xhtml">
+								<h:outputText value="#{computeBean.baseTestSuiteValue}">
+									<f:convertNumber maxFractionDigits="#{configBean.fractionDigits}" />		
+								</h:outputText>
+								<f:param name="testrunid" value="#{testRun.id}" />
+								<f:param name="attributeid" value="#{att.id}" />
+							</h:outputLink>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Compared TestSuite" />
+							</f:facet>
+							#{computeBean.setComparedTestSuiteValue(view2Form.comparedTestSuite, testRun.method.id, att.id, view2Form.function)}
+							#{computeBean.computeDiffAndShare()}
+							
+							<h:outputLink value="results.xhtml">
+								<h:outputText value="#{computeBean.comparedTestSuiteValue}">
+									<f:convertNumber maxFractionDigits="#{configBean.fractionDigits}" />		
+								</h:outputText>
+								<f:param name="testrunid" value="#{view2Bean.testSuite2TestRun.id}" />
+								<f:param name="attributeid" value="#{att.id}" />
+							</h:outputLink>
+							
+							<h:outputText value=" " />
+							<h:graphicImage value="/resources/icons/arrow_up.png"
+								rendered="#{computeBean.diff == null? false : computeBean.diff lt 0}" />
+							<h:graphicImage value="/resources/icons/arrow_down.png"
+								rendered="#{computeBean.diff == null? false : computeBean.diff gt 0}" />
+							<h:graphicImage value="/resources/icons/arrow_circle.png"
+								rendered="#{computeBean.diff == null? false : computeBean.diff eq 0}" />
+							
+							<h:outputText styleClass="#{computeBean.determineStyleClass(att.name)}" value=" #{computeBean.shareAsText}" />
+							<h:outputText styleClass="#{computeBean.determineStyleClass(att.name)}" value=" #{computeBean.diffAsText}" />	
+						</p:column>
+					</p:dataTable>
+       			</p:fieldset>
+        	</ui:repeat>
+		</h:form>
+	</ui:define>
+</ui:composition>

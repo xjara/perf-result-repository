@@ -1,0 +1,102 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.6em;
+    background-color: #EAECEE	
+}
+
+.small_field {
+	width: 150px
+}
+
+.big_field {
+	width: 250px
+}
+
+
+.casual_panel {
+	width: 500px
+}
+
+.action {
+	width: 80px
+}
+
+.column_name {
+	width: 15%
+}
+
+.column_status {
+	width: 5%
+}
+
+.exception {
+	width: 45%;
+	border: 1px solid orange
+}
+
+.graph_results {
+	width: 650px;
+	height: 450px
+}
+
+.graph_view1 { 
+	width: 550px;
+	height: 250px
+}
+
+.graph_view2 {
+	width: 450px;
+	height: 250px 
+}
+
+.select_menu {
+	width: 150px
+}
+
+.tab_view {
+	width: 600px;
+}
+
+#summary td {
+	padding-right: 2.5em;
+}
+
+#footer {
+    clear: both;
+    text-align: center;
+    color: #666666;
+    font-size: 0.85em;
+    padding: 3em 0 0 0;
+}
+
+.column1 {
+	width: 140px;
+}
+
+.column2 {
+	width: 80px;
+}
+
+.G {
+	color: blue;
+}
+
+.L {
+	color: red;
+}
+
+<!-- are the following used? -->
+
+.prvek {
+	width: 30%;
+	float: left;
+}
+
+code {
+    font-size: 1.1em;
+}
+
+span.invalid {
+    padding-left: 3px;
+    color: red;
+}

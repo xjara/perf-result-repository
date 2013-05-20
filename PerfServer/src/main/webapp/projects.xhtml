@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:dataTable 
+				id="table"
+				value="#{projects}"
+				var="project"
+				rowClasses="odd, even"
+				emptyMessage="There are not any Projects."
+				paginator="true" 
+				rows="#{configBean.rows}"
+				paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+	            rowsPerPageTemplate="#{configBean.rowsPerPage}" >
+	              
+				<f:facet name="header">
+					<h:outputText value="Tested Projects" />
+				</f:facet>
+				
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column
+							rowspan="2" 
+							headerText="Name" 
+							sortBy="#{project.name}"
+							filterBy="#{project.name}"
+							filterMatchMode="contains" />
+						<p:column
+							colspan="3"
+							headerText="Performance" />
+						<p:column
+							rowspan="2"
+							headerText="Thresholds" />
+						<p:column
+							rowspan="2"
+							headerText="Action" />		
+					</p:row>
+					<p:row>
+						<p:column headerText="TestSuites across Platforms" />
+						<p:column headerText="Compare 2 TestSuite Runs" />
+						<p:column headerText="Method Progress" />
+					</p:row>
+				</p:columnGroup>
+				
+				<p:column>
+					<h:link value="#{project.name}" outcome="testsuites">
+						<f:param name="projectid" value="#{project.id}" />
+					</h:link>
+				</p:column>
+				<p:column>
+					<h:link value="show" outcome="view1">
+						<f:param name="projectid" value="#{project.id}" />
+					</h:link>	
+				</p:column>
+				<p:column>
+					<h:link value="show" outcome="view2">
+						<f:param name="projectid" value="#{project.id}" />
+					</h:link>	
+				</p:column>
+				<p:column>
+					<h:link value="show" outcome="view3">
+						<f:param name="projectid" value="#{project.id}" />
+					</h:link>	
+				</p:column>
+				<p:column>
+					<h:link outcome="local_thresholds" title="Maintain local thresholds" styleClass="ui-icon ui-icon-wrench">
+						<f:param name="projectid" value="#{project.id}" />
+					</h:link>
+				</p:column>
+				<p:column>
+					<p:commandLink
+						title="Delete project"
+						styleClass="ui-icon ui-icon-trash"
+                       	action="#{projectBean.deleteProject(project)}"
+                       	process="@this"
+                       	ajax="true"
+                       	update=":form" />
+				</p:column>
+			</p:dataTable>
+			<h:panelGrid columns="2">
+				<p:message id="delete" for="delete" />
+				<h:outputText value="" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

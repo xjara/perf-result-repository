@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:panel>
+			<h:link value="Project:" outcome="projects" />
+			<h:outputText value=" #{view3Bean.project.name}" />
+		</p:panel>
+		
+		<h:form id="form">
+			<p:fieldset legend="Method Progress">
+				<h:panelGrid columns="3">
+					TestSuite:
+					<p:selectOneMenu id="testSuiteNames" value="#{view3Form.testSuite}" style="width: 250px">
+						<f:selectItem itemLabel="Select" itemValue=""/>
+						<f:selectItems
+							value="#{view3Bean.uniqueTestSuites}"
+							var="testsuite"
+							itemValue="#{testsuite}"
+							itemLabel="#{testsuite}" />
+							
+						<p:ajax listener="#{view3Bean.handleTestSuiteChange()}" update="@this,msg_testSuiteNames,testRun,build" />	
+					</p:selectOneMenu>
+					<p:message id="msg_testSuiteNames" for="testSuiteNames" />
+					
+					Method:
+					<p:selectOneMenu id="testRun" value="#{view3Form.methodId}" style="width: 250px">
+						<f:selectItem itemLabel="Select" itemValue=""/>
+						<f:selectItems
+							value="#{view3Bean.methods}"
+							var="m"
+							itemValue="#{m.method.id}"
+							itemLabel="#{m.method.name}" />
+							
+							<p:ajax update="@this,msg_testRun" />
+					</p:selectOneMenu>
+					<p:message id="msg_testRun" for="testRun" />
+					
+					Attribute:
+					<p:selectOneMenu id="attribute" value="#{view3Form.attributeId}" style="width: 250px">
+						<f:selectItem itemLabel="Select" itemValue="" />
+						<f:selectItems 
+							value="#{view3Bean.attributes}"
+							var="attr"
+							itemLabel="#{attr.name}"
+							itemValue="#{attr.id}" />
+							
+							<p:ajax update="@this,msg_attribute" />
+					</p:selectOneMenu>
+					<p:message id="msg_attribute" for="attribute" />
+					
+					Function: 
+					<p:selectOneMenu id="function" value="#{view3Form.function}">
+						<f:selectItems 
+							value="#{view3Bean.functions}"
+							var="fce"
+							itemValue="#{fce}"
+							itemLabel="#{fce}" />
+							
+							<p:ajax update="@this,msg_function" />	
+					</p:selectOneMenu>
+					<p:message id="msg_function" for="function" />
+					
+					Builds:
+					<p:selectManyMenu id="build" value="#{view3Form.builds}" style="width: 250px">
+						<f:selectItems 
+							value="#{view3Bean.builds}" 
+							var="build"
+							itemLabel="#{build}"
+							itemValue="#{build}" />
+					</p:selectManyMenu>
+					<p:message for="build" />
+					
+					<p:commandButton 
+						value="Show" 
+						actionListener="#{view3Bean.refresh()}"
+						ajax="false" />
+				</h:panelGrid>
+				
+			</p:fieldset>
+			
+			<h:panelGrid>	
+				#{view3Bean.createChart()}
+				<p:barChart
+					id="horizontal" 
+					value="#{view3Bean.chart}"
+					style="width: 550px; height: 250px"
+					showMarkers="false"  
+	            	title="#{view3Bean.method.name}"
+	            	orientation="horizontal"
+	            	stacked="false"
+	            	breakOnNull="true"
+	            	shadow="false"
+	            	zoom="true"
+	            	enhancedLegend="false"
+	            	legendPosition="sw"
+	            	xaxisLabel="#{view3Bean.attr.unit.name}"
+	            	yaxisLabel=""
+	            	xaxisAngle="70"
+	            	yaxisAngle="90"
+	            	barMargin="8"
+	            	barPadding="10"
+	            	rendered="#{view3Bean.chart != null}">
+					
+					<p:ajax event="itemSelect" listener="#{view3Bean.itemSelect}" />
+				</p:barChart>	
+				
+				<p:dataTable 
+					value="#{view3Bean.buildTestSuiteValues}" 
+					var="buildTestSuiteValue"
+					rowClasses="odd, even"
+					rendered="#{view3Bean.chart != null}">
+					
+					<f:facet name="header">
+						<h:outputText value="TestSuites" />
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#" />
+						</f:facet>
+						<h:outputText value="#{buildTestSuiteValue.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Build" />
+						</f:facet>
+						<h:outputText value="#{buildTestSuiteValue.build}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Platform" />
+						</f:facet>
+						<h:outputText value="#{buildTestSuiteValue.hw}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Tested" />
+						</f:facet>
+						<h:outputText value="#{buildTestSuiteValue.startTime}" />
+						<h:outputText value=" " rendered="#{not buildTestSuiteValue.finished}" />
+						<h:graphicImage 
+							value="/resources/icons/progress.png" 
+							alt="progress"
+							rendered="#{not buildTestSuiteValue.finished}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Value (#{view3Bean.attr.unit.name})" />
+						</f:facet>
+						<h:outputText value="#{buildTestSuiteValue.value}">
+							<f:convertNumber maxFractionDigits="#{configBean.fractionDigits}" />
+						</h:outputText>
+					</p:column>		
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

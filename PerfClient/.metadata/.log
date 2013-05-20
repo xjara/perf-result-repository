@@ -1,0 +1,18 @@
+!SESSION 2012-09-04 21:15:53.542 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2012-09-04 21:16:25.140
+!MESSAGE Could not load repository template extension contributed by org.jboss.tools.common.mylyn with connectorKind bugzilla
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2012-09-04 21:16:25.172
+!MESSAGE Could not load repository template extension contributed by org.jboss.tools.common.mylyn with connectorKind jira
+
+!ENTRY org.eclipse.mylyn.tasks.ui 2 0 2012-09-04 21:16:25.577
+!MESSAGE No search provider was registed. Tasks search is not available.
+
+!ENTRY org.jboss.tools.central 2 0 2012-09-04 21:16:43.811
+!MESSAGE The org.jboss.tools.central.jbossas.quickstart.ticketmonster project example not found

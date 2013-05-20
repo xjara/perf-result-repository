@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:fieldset legend="Maintain Attributes">
+			<h:panelGrid columns="2">
+				<h:form id="form_add">
+					<p:panel header="Add Attribute" styleClass="casual_panel">
+						<h:panelGrid columns="3">
+							<h:outputText value="Name:" />
+							<p:inputText id="name" styleClass="big_field" value="#{attrForm.name}" />
+							<p:message for="name" />
+							<h:outputText value="Unit:" />
+							<p:selectOneMenu id="unit" style="width: 150px" value="#{attrForm.unit}">
+								<f:selectItem itemLabel="Select" itemValue=""/>
+								<f:selectItems 
+									value="#{attrUnits}" 
+									var="unit"
+									itemLabel="#{unit.name}"
+									itemValue="#{unit.name}"/>
+								
+								<p:ajax update="@this, msg_unit" />
+							</p:selectOneMenu>
+							<p:message id="msg_unit" for="unit" />
+						</h:panelGrid>
+						<p:commandButton 
+							value="Save" 
+							actionListener="#{attrBean.saveAttr()}" 
+							update=":form_list :form_add" />
+					</p:panel>
+				</h:form>
+			
+				<h:form id="form_list">
+					<p:dataTable 
+						id="table" 
+						value="#{attributes}" 
+						var="attr"
+						emptyMessage="There are not any Attributes."
+						styleClass="casual_panel">
+						
+						<f:facet name="header">
+							<h:outputText value="Defined Attributes" />
+						</f:facet>
+										
+						<p:column headerText="Name">
+							<h:outputText value="#{attr.name}" />				
+						</p:column>
+						<p:column headerText="Unit">
+							<h:outputText value="#{attr.unit.name}" />				
+						</p:column>
+						
+						<p:column headerText="Action" styleClass="action">
+							<p:commandLink
+								title="Delete"
+								styleClass="ui-icon ui-icon-trash"
+		                      	actionListener="#{attrBean.deleteAttr(attr)}" 
+								update=":form_list :form_add" />
+						</p:column>
+					</p:dataTable>
+					<p:message id="delete" for="delete" />
+				</h:form>
+			</h:panelGrid>
+		</p:fieldset>
+	</ui:define>
+</ui:composition>

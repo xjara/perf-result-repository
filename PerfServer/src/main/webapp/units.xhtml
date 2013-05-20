@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<p:fieldset legend="Maintain Units">
+			<h:panelGrid columns="2">
+				<h:form id="form_add">
+					<p:panel header="Add Unit" styleClass="casual_panel">
+						<h:panelGrid columns="3">
+							<h:outputText value="Name:" />
+							<p:inputText id="name" styleClass="small_field" value="#{unitForm.name}" />
+							<p:message for="name" />
+						</h:panelGrid>
+						<p:commandButton 
+							value="Save"
+							actionListener="#{unitBean.saveUnit()}"
+							update=":form_list :form_add" />
+					</p:panel>	
+				</h:form>
+			
+				<h:form id="form_list">
+					<p:dataTable 
+						id="table" 
+						value="#{units}" 
+						var="unit"
+						emptyMessage="There are not any Units."
+						styleClass="casual_panel">						
+						
+						<f:facet name="header">
+							<h:outputText value="Defined Units" />
+						</f:facet>
+											
+						<p:column headerText="Name">
+							<h:outputText value="#{unit.name}" />	
+						</p:column>
+						<p:column headerText="Action" styleClass="action">
+							<p:commandLink
+								title="Delete"
+								styleClass="ui-icon ui-icon-trash"
+		                      	actionListener="#{unitBean.deleteUnit(unit)}"
+		                      	update=":form_list :form_add" />        		  
+						</p:column>
+					</p:dataTable>
+					<p:message id="delete" for="delete" />
+				</h:form>
+			</h:panelGrid>
+		</p:fieldset>
+	</ui:define>
+</ui:composition>

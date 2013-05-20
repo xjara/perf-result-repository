@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<title>Performance Result Repository</title>
+	<h:outputStylesheet name="css/screen.css" />
+	
+	<script type="text/javascript">
+		//<![CDATA[
+		
+		function showPanel() {
+			var url = document.location.href;
+			var page = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'));
+			if (page == 'results') {
+				if (document.location.href.search("attributeid") != -1) {
+					var index = document.location.href.lastIndexOf('=');
+					var attributeId = document.location.href.substring(index + 1);
+					var aList = document.getElementsByTagName("a");
+					for(var i = 0; i < aList.length; i++) {
+						// link to tab panel has href in form: j_idt28:aN where N is id of the attribute
+						var panelHref = aList[i].getAttribute("href"); 
+						index = panelHref.indexOf(':') + 2;
+						// only IDs are compared
+						if (panelHref.substring(index) == attributeId) {
+							aList[i].click();
+							return;	
+						}
+					}
+				}
+			}
+		}
+		//]]>	
+	</script>
+</h:head>
+<h:body onload="showPanel();">
+	<div id="header">
+		<h1>Performance Result Repository</h1>
+	</div>
+	<div id="body">	  
+		<p:layout id="layout">  
+		    <p:layoutUnit position="west" resizable="true" size="200" minSize="100" maxSize="200">
+				<h:form>
+				    <p:panelMenu>
+				    	<p:submenu label="TestSuites">
+				            <p:menuitem value="Actually tested" outcome="index" />
+				            <p:menuitem value="Recently finished" outcome="recently_testsuites" />
+				        </p:submenu>
+				        <p:separator />
+				        <p:submenu label="Projects">
+				            <p:menuitem value="All Projects" outcome="projects" />
+				            <p:menuitem value="Import TestSuite" outcome="uploadfile" />
+				        </p:submenu>
+				        <p:separator />
+				        <p:submenu label="Settings" >   
+		                    <p:menuitem value="Thresholds" outcome="thresholds" />
+		                    <p:menuitem value="Attributes" outcome="attributes" />
+		                    <p:menuitem value="Units" outcome="units" />
+				        </p:submenu>
+				    </p:panelMenu>
+				</h:form>		
+		    </p:layoutUnit>  
+	  
+		   	<p:layoutUnit position="center">
+		   		<div id="content">
+			        <ui:insert name="content">	        	
+			        	[Template content will be inserted here]
+			        </ui:insert>
+		        </div>
+	    	</p:layoutUnit>   
+		</p:layout> 
+	</div>
+</h:body>
+</html>

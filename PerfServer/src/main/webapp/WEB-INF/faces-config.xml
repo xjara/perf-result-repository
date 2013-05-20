@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is not required if you don't need any extra configuration. -->
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="         http://java.sun.com/xml/ns/javaee         http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+	<!-- This descriptor activates the JSF 2.0 Servlet Write your navigation 
+		rules here. You are encouraged to use CDI for creating @Named managed beans. -->
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>methods</from-outcome>
+			<to-view-id>/methods.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>testsuites</from-outcome>
+			<to-view-id>/testsuites.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>uploadfile</from-outcome>
+			<to-view-id>/uploadfile.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/projects.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>testsuites</from-outcome>
+			<to-view-id>/testsuites.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>view1</from-outcome>
+			<to-view-id>/view1.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>view2</from-outcome>
+			<to-view-id>/view2.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>view3</from-outcome>
+			<to-view-id>/view3.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>local_thresholds</from-outcome>
+			<to-view-id>/local_thresholds.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/testsuites.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>methods</from-outcome>
+			<to-view-id>/methods.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/methods.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>results</from-outcome>
+			<to-view-id>/results.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

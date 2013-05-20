@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="testsuite">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="properties" type="propertiesType" />
+				<xs:element name="methods" type="methodsType" />
+			</xs:sequence>
+			<xs:attribute name="name" type="char1024" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="char255">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="char1024">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1024" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="char5000">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="5000" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="propertiesType">
+		<xs:all>
+			<xs:element name="project" type="char1024" />
+			<xs:element name="build" type="char1024" />
+			<xs:element name="hw" type="char1024" />
+			<xs:element name="starttime" type="xs:dateTime" />
+			<xs:element name="endtime" type="xs:dateTime" />
+		</xs:all>
+	</xs:complexType>
+	
+	<xs:complexType name="methodsType">
+		<xs:sequence>	
+			<xs:element name="method" type="methodType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Section data must be included in each imported method. -->
+	<xs:complexType name="methodType">
+		<xs:sequence>
+			<xs:element name="info" type="infoType" />
+			<xs:element name="data" type="dataType" />
+		</xs:sequence>
+		<xs:attribute name="name" type="char1024" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="infoType">
+		<xs:all>
+			<xs:element name="description" type="char1024" minOccurs="0" />
+			<xs:element name="params" type="char1024" minOccurs="0" />
+			<xs:element name="status" type="statusType" />
+			<xs:element name="exception" type="char5000" minOccurs="0" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="dataType">
+		<xs:sequence>
+			<xs:element name="attribute" type="attributeType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="attributeType">
+		<xs:sequence>
+			<xs:element name="value" type="valueType" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="char255" use="required" />
+		<xs:attribute name="unit" type="char255" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="valueType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="time" type="xs:dateTime" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<!-- 
+	statusType determines the method state:
+	0 = method was unsuccesfull
+	1 = method was succesfull
+	2 = method was excluded from testing
+	3 = method is tested now
+	-->
+	<xs:simpleType name="statusType">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:maxInclusive value="3" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema> 
