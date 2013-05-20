@@ -3,7 +3,7 @@ perf-result-repository
 
 Test Result Repository with Web User Interface
 
-This project was developed as master's thesis at FIT VUT in Brno for Red Hat company.
+This project was developed as master's thesis at FIT VUT Brno for Red Hat company.
 
 
 Description:
@@ -23,4 +23,4 @@ PerfClientServlet - Inicialization servlet for remote client.
 
 PerfRtFilter - Tool for measuring the response time.
 
-PerfServer - The server application
+PerfServer - The server application.
