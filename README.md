@@ -24,3 +24,5 @@ PerfClientServlet - Inicialization servlet for remote client.
 PerfRtFilter - Tool for measuring the response time.
 
 PerfServer - The server application.
+
+Examples - Contains projects with JUnit and TestNG tests using PerfClient.
