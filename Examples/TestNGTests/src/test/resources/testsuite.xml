@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="myTestSuite" verbose="1"> 
+ 
+	<listeners>
+		<!-- Standard PerfClient TestNG listener. --> 
+		<listener class-name="cz.vutbr.fit.mis.dip.perfclient.listener.testng.PerfListener" />
+	</listeners>
+	
+	<test name="myTest">
+		<classes>
+			<class name="distributed.DistributedTest">
+				<!-- To exclude the following methods from testing just remove their wrapping commentary. -->
+				<!--
+				<methods>
+					<exclude name="getRequestsOnPageWith10MeasuredAttributes" />
+					<exclude name="getRequestsOnPageWith100MeasuredAttributes" />
+					<exclude name="getRequestsOnPageWith1000MeasuredAttributes" />
+				</methods>
+				-->
+			</class>
+			<class name="annotation.AnnotTest" />
+			<class name="simple.SimpleTest" />
+			<class name="param.ParamTest" />
+		</classes>
+	</test>
+</suite>

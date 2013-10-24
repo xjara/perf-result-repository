@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cz.vutbr.fit.mis.dip.test</groupId>
+	<artifactId>TestNGTests</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>TestNG tests</name>
+	<description>TestNG tests for testing PerfClient and PerfServer.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>cz.vutbr.fit.mis.dip</groupId>
+			<artifactId>PerfClient</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.13</version>
+				<configuration>
+					<argLine>
+						-DPerfMonitor.repURL=http://app-cz0.rhcloud.com/PerfServer/rest/rep
+						-DPerfMonitor.project=ExampleTestNGProject 
+						-DPerfMonitor.build=TestNgBuild
+						-DPerfMonitor.testsuite=TestNgSuite
+						-DPerfMonitor.platform=Linux_2x1.8Ghz_3GBram
+						-Djava.library.path=/home/jara/workspace/sigarLib
+					</argLine>
+					
+					<!-- 
+						Standard PerfClient TestNG listener which  
+						is used is defined in file testsuite.xml. 
+					-->
+					<!--      
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/testsuite.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					-->
+					
+					<properties>
+						<!-- 
+							If you want to use the user's defined TestNG listener below, 
+							just wrap the suiteXmlFiles tags into commentary and remove
+							commentary wrapping the property tags. 
+						-->
+						   
+						<property>
+							<name>listener</name>
+							<value>listener.UserPerfTestNGListener</value>
+						</property>
+						
+					</properties>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

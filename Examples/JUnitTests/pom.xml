@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cz.vutbr.fit.mis.dip.test</groupId>
+	<artifactId>JUnitTests</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>JUnit tests</name>
+	<description>JUnit tests for testing PerfClient and PerfServer.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>cz.vutbr.fit.mis.dip</groupId>
+			<artifactId>PerfClient</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.13</version>
+				<configuration>
+					<argLine>
+						-DPerfMonitor.repURL=http://app-cz0.rhcloud.com/PerfServer/rest/rep
+						-DPerfMonitor.project=ExampleProject 
+						-DPerfMonitor.build=ExampleBuild
+						-DPerfMonitor.testsuite=ExampleTestSuite
+						-DPerfMonitor.platform=Linux_2x1.8Ghz_3GBram
+						-Djava.library.path=/home/jara/workspace/sigarLib
+					</argLine>
+
+					<properties>
+						<property>	
+							<!-- Standard PerfClient JUnit listener. -->   
+							<!--      
+							<name>listener</name>
+							<value>cz.vutbr.fit.mis.dip.perfclient.listener.junit.PerfListener</value>
+							-->
+							
+							<!-- 
+								If you want to use the user's defined JUnit listener below, just wrap the 
+								other listener into commentary and unwrap the commentary of this listener. 
+							-->
+							    
+							<name>listener</name>
+							<value>listener.UserJUnitPerfListener</value>
+							
+						</property>
+					</properties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.13</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>
