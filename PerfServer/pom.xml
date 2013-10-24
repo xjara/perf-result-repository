@@ -71,18 +71,6 @@
 			<artifactId>PerfObjects</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-	
-		<dependency>
-			<groupId>cz.vutbr.fit.mis.dip</groupId>
-			<artifactId>PerfRtFilter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>cz.vutbr.fit.mis.dip</groupId>
-			<artifactId>PerfClientServlet</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 
 		<dependency>
 			<groupId>jstl</groupId>
